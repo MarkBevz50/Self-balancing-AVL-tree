@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Tree.h"
+#include <iomanip>
 
 int height(Node* node) {
     if (node == nullptr) return 0;
@@ -83,8 +84,12 @@ Node* findMin(Node* node) {
     return current;
 }
 
+
 Node* deleteNode(Node* node, int data) {
-    if (node == nullptr) return node;
+    if (node == nullptr) {
+        throw std::invalid_argument("Element to delete is not found in the tree");
+    }
+
     if (data < node->data)
         node->left = deleteNode(node->left, data);
     else if (data > node->data)
@@ -109,6 +114,7 @@ Node* deleteNode(Node* node, int data) {
     }
 
     if (node == nullptr) return node;
+
     node->height = 1 + std::max(height(node->left), height(node->right));
     int balance = getBalance(node);
 
@@ -142,6 +148,6 @@ void printTreeGraph(Node* root, int space, int count ) {
     std::cout << std::endl;
     for (int i = count; i < space; i++)
         std::cout << " ";
-    std::cout << root->data << "\n";
+    std::cout << '*'<<root->data << "\n";
     printTreeGraph(root->left, space);
 }
